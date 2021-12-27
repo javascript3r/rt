@@ -47,6 +47,29 @@ function createDiv(i){
     }
 
 
+    function createDivRandom(i){
+        let div = document.createElement('div')
+        
+        let img = document.createElement('img')
+        img.src = obj.at(0).data.children.at(i).data.thumbnail;
+        //a.innerHTML=`<div style="position:relative; padding-bottom: 55.54%"><iframe src="${obj.data.children.at(i).data.url}" 
+        //frameborder="0" scrolling="no" width="100%" height="100%" style="position:absolute; top:0; left:0;" allowfullscreen=""></iframe></div>`
+        if(links.checked){
+        let a = document.createElement('a')
+        a.href = obj.at(0).data.children.at(i).data.url;
+        a.append(img)
+        div.append(a)
+        }
+        else{
+    
+            div.append(img)
+            img.addEventListener('click',function(){generateVid(obj.at(0).data.children.at(i).data.media_embed.content, div, div.innerHTML)})
+        }
+    
+        return div
+        }
+
+
     function htmlDecode(input){
         var e = document.createElement('div');
         e.innerHTML = input;
@@ -83,3 +106,12 @@ async function handleclick(){
 }
 
 mehet.addEventListener('click', handleclick)
+
+const rand = document.querySelector('#random')
+rand.addEventListener('click',async function(){
+    resp = await fetch(`https://www.reddit.com/r/${sub.value}/random.json`)
+    obj = await resp.json()
+    body.append(createDivRandom(0))
+
+
+})
