@@ -63,7 +63,8 @@ function createDiv(i){
         else{
     
             div.append(img)
-            img.addEventListener('click',function(){generateVid(obj.at(0).data.children.at(i).data.media_embed.content, div, div.innerHTML)})
+            let href = obj.at(0).data.children.at(i).data.media_embed.content;
+            img.addEventListener('click',function(){generateVid(href, div, div.innerHTML)})
         }
     
         return div
