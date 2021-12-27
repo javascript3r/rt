@@ -40,7 +40,13 @@ function createDiv(i){
     else{
 
         div.append(img)
-        img.addEventListener('click',function(){generateVid(obj.data.children.at(i).data.media_embed.content, div, div.innerHTML)})
+        let href = obj.data.children.at(i).data.media_embed.content
+        let exist = true
+        if(!href){
+            exist = false
+            href = obj.data.children.at(i).data.url
+        } 
+        img.addEventListener('click',function(){generateVid(href, div, div.innerHTML, exist)})
     }
 
     return div
@@ -64,7 +70,14 @@ function createDiv(i){
     
             div.append(img)
             let href = obj.at(0).data.children.at(i).data.media_embed.content;
-            img.addEventListener('click',function(){generateVid(href, div, div.innerHTML)})
+            
+            let exist = true
+            if(!href){
+            exist = false
+            href = obj.at(0).data.children.at(i).data.url
+            } 
+            
+            img.addEventListener('click',function(){generateVid(href, div, div.innerHTML, exist)})
         }
     
         return div
@@ -77,11 +90,17 @@ function createDiv(i){
         return e.childNodes[0].nodeValue;
       }
 
-    function generateVid(url, div, prev){
+    function generateVid(url, div, prev, exist){
         //a.innerHTML=`<div style="position:relative; padding-bottom: 55.54%"><iframe src="${obj.data.children.at(i).data.url}" 
         //frameborder="0" scrolling="no" width="100%" height="100%" style="position:absolute; top:0; left:0;" allowfullscreen=""></iframe></div>`
+        if(exist){
         div.innerHTML=`<div style='position:relative; padding-bottom: 56.31%'>
         ${htmlDecode(url)}</div>`
+        }else{
+        div.innerHTML=`<div style="position:relative; padding-bottom: 55.54%"><iframe src="${url}" 
+        frameborder="0" scrolling="no" width="100%" height="100%" style="position:absolute; top:0; left:0;" allowfullscreen=""></iframe></div>`
+        
+        }
         let btn = document.createElement('button')
         btn.innerText="back"
         btn.addEventListener('click',function(){div.innerHTML=prev})
